@@ -1563,7 +1563,7 @@ class InvoiceModelAbstract(
             return
         if not self.can_delete():
             raise InvoiceModelValidationError(
-                message=_(f'Invoice {self.invoice_number} cannot be deleted...')
+                message=_('Invoice %(invoice_number)s cannot be deleted...') % {'invoice_number': self.invoice_number}
             )
         return super().delete(using=using, keep_parents=keep_parents)
 

@@ -22,7 +22,7 @@
                     <div class="card-content has-text-centered">
                         <a href="{% url 'django_ledger:bill-detail' entity_slug=view.kwargs.entity_slug bill_pk=bill.uuid %}"
                            class="button is-primary">{% trans 'Go Back' %}</a>
-                        <button type="submit" class="button is-warning">{% trans 'Void' %}</button>
+                        <button type="submit" class="button is-warning">{% trans 'Void bill' %}</button>
                     </div>
                 </div>
             </form>

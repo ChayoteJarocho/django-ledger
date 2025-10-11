@@ -233,7 +233,10 @@ class IOCursor:
                 if total_credits != total_debits:
                     raise IOCursorValidationError(
                         message=_('Total transactions Credits and Debits must be equal. '
-                                  'Got CREDITs: {} and DEBITs: {}.'.format(total_credits, total_debits))
+                                  'Got CREDITs: %(c)s and DEBITs: %(d)s.') % {
+                                      'c' : total_credits,
+                                      'd' : total_debits
+                                  }
                     )
 
             self.instructions = instructions
@@ -287,7 +290,8 @@ class IOCursor:
         for k, ledger_model in self.ledger_map.items():
             if ledger_model.is_locked():
                 raise IOCursorValidationError(
-                    message=_(f'Cannot transact on a locked ledger: {ledger_model}')
+                    message=_('Cannot transact on a locked ledger: %(lm)s') % {
+                        'lm': ledger_model }
                 )
 
         for k, txs in self.blueprints.items():
@@ -297,7 +301,7 @@ class IOCursor:
                     # no specified xid, ledger or UUID... create one...
                     self.commit_plan[
                         self.ENTITY_MODEL.create_ledger(
-                            name='Blueprint Commitment',
+                            name=_('Blueprint Commitment'),
                             commit=False,
                             posted=post_new_ledgers
                         )
@@ -316,7 +320,7 @@ class IOCursor:
                         # create ledger with xid provided...
                         self.commit_plan[
                             self.ENTITY_MODEL.create_ledger(
-                                name=f'Blueprint Commitment {k}',
+                                name=_('Blueprint Commitment %(k)s') % {'k': k},
                                 ledger_xid=k,
                                 commit=False,
                                 posted=post_new_ledgers
@@ -324,7 +328,7 @@ class IOCursor:
                         ] = txs
                     else:
                         raise IOCursorValidationError(
-                            message=_(f'Cannot commit transactions to a non-existing ledger_xid {k}')
+                            message=_('Cannot commit transactions to a non-existing ledger_xid %(k)s') % {'k': k}
                         )
 
             elif isinstance(k, UUID):
@@ -332,14 +336,14 @@ class IOCursor:
                     self.commit_plan[self.ledger_map[k]] = txs
                 except KeyError:
                     raise IOLibraryError(
-                        message=_(f'Ledger UUID {k} not found.')
+                        message=_('Ledger UUID %(k)s not found.') % {'k': k}
                     )
 
             elif isinstance(k, LedgerModel):
                 self.commit_plan[k] = txs
 
             else:
-                raise IOLibraryError('Unsupported ledger of type {x}'.format(x=type(k)))
+                raise IOLibraryError(_('Unsupported ledger of type %(tk)s') % { 'tk' : type(k) })
 
         instructions = self.compile_instructions()
         account_codes = set(tx.account_code for tx in chain.from_iterable(tr for _, tr in instructions.items()))
@@ -353,7 +357,7 @@ class IOCursor:
                 tx.account_model = account_models[tx.account_code]
             except KeyError:
                 raise IOCursorValidationError(
-                    message=_(f'Account code {tx.account_code} not found. Is account available and not locked?')
+                    message=_('Account code %(ac)s not found. Is account available and not locked?') % {'ac': tx.account_code}
                 )
 
         results = dict()

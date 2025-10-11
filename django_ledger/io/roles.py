@@ -427,9 +427,9 @@ GROUP_CFS_INVESTING = GROUP_CFS_INVESTING_PPE + GROUP_CFS_INVESTING_SECURITIES
 # ---> INVESTING & FINANCING ACTIVITIES <---- #
 GROUP_CFS_INVESTING_AND_FINANCING = GROUP_CFS_INVESTING + GROUP_CFS_FINANCING
 
-BS_ASSET_ROLE = 'assets'
-BS_LIABILITIES_ROLE = 'liabilities'
-BS_EQUITY_ROLE = 'equity'
+BS_ASSET_ROLE = _('assets')
+BS_LIABILITIES_ROLE = _('liabilities')
+BS_EQUITY_ROLE = _('equity')
 
 ACCOUNT_ROLE_CHOICES = [
     (BS_ASSET_ROLE.capitalize(), (
@@ -468,7 +468,7 @@ ACCOUNT_ROLE_CHOICES = [
         (LIABILITY_CL_INTEREST_PAYABLE, _('Interest Payable')),
         (LIABILITY_CL_TAXES_PAYABLE, _('Taxes Payable')),
         (LIABILITY_CL_ST_NOTES_PAYABLE, _('Short Term Notes Payable')),
-        (LIABILITY_CL_LTD_MATURITIES, _('Current Maturities of Long Tern Debt')),
+        (LIABILITY_CL_LTD_MATURITIES, _('Current Maturities of Long Term Debt')),
         (LIABILITY_CL_DEFERRED_REVENUE, _('Deferred Revenue')),
         (LIABILITY_CL_OTHER, _('Other Liabilities')),
 
@@ -506,19 +506,19 @@ ACCOUNT_ROLE_CHOICES = [
         (EXPENSE_AMORTIZATION, _('Amortization Expense')),
         (EXPENSE_OTHER, _('Other Expense')),
     )),
-    ('Root', (
-        (ROOT_COA, 'CoA Root Account'),
-        (ROOT_ASSETS, 'Assets Root Account'),
-        (ROOT_LIABILITIES, 'Liabilities Root Account'),
-        (ROOT_CAPITAL, 'Capital Root Account'),
-        (ROOT_INCOME, 'Income Root Account'),
-        (ROOT_COGS, 'COGS Root Account'),
-        (ROOT_EXPENSES, 'Expenses Root Account'),
+    (_('Root'), (
+        (ROOT_COA, _('CoA Root Account')),
+        (ROOT_ASSETS, _('Assets Root Account')),
+        (ROOT_LIABILITIES, _('Liabilities Root Account')),
+        (ROOT_CAPITAL, _('Capital Root Account')),
+        (ROOT_INCOME, _('Income Root Account')),
+        (ROOT_COGS, _('COGS Root Account')),
+        (ROOT_EXPENSES, _('Expenses Root Account')),
     ))
 ]
 
 ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
-    ('Asset', (
+    (_('Assets'), (
         # CURRENT ASSETS ----
         (ASSET_CA_CASH, _('Current Asset')),
         (ASSET_CA_MKT_SECURITIES, _('Marketable Securities')),
@@ -546,7 +546,7 @@ ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
         (ASSET_INTANGIBLE_ASSETS_ACCUM_AMORTIZATION, _('Intangible Assets - Accum. Amortization')),
         (ASSET_ADJUSTMENTS, _('Other Assets')),
     )),
-    ('Liabilities', (
+    (_('Liabilities'), (
 
         # CURRENT LIABILITIES ---
         (LIABILITY_CL_ACC_PAYABLE, _('Accounts Payable')),
@@ -554,7 +554,7 @@ ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
         (LIABILITY_CL_INTEREST_PAYABLE, _('Interest Payable')),
         (LIABILITY_CL_TAXES_PAYABLE, _('Taxes Payable')),
         (LIABILITY_CL_ST_NOTES_PAYABLE, _('Short Term Notes Payable')),
-        (LIABILITY_CL_LTD_MATURITIES, _('Current Maturities of Long Tern Debt')),
+        (LIABILITY_CL_LTD_MATURITIES, _('Current Maturities of Long Term Debt')),
         (LIABILITY_CL_DEFERRED_REVENUE, _('Deferred Revenue')),
         (LIABILITY_CL_OTHER, _('Other Liabilities')),
 
@@ -563,7 +563,7 @@ ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
         (LIABILITY_LTL_BONDS_PAYABLE, _('Bonds Payable')),
         (LIABILITY_LTL_MORTGAGE_PAYABLE, _('Mortgage Payable')),
     )),
-    ('Capital', (
+    (_('Capital'), (
 
         # EQUITY ---
         (EQUITY_CAPITAL, _('Capital')),
@@ -573,7 +573,7 @@ ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
         (EQUITY_DIVIDENDS, _('Dividends & Distributions to Shareholders')),
     )),
 
-    ('Income', (
+    (_('Income'), (
         # INCOME ---
         (INCOME_OPERATIONAL, _('Operational Income')),
         (INCOME_PASSIVE, _('Investing/Passive Income')),
@@ -582,7 +582,7 @@ ACCOUNT_ROLE_CHOICES_FOR_FORMS = [
         (INCOME_OTHER, _('Other Income')),
     )),
 
-    ('Expense', (
+    (_('Expenses'), (
         # COGS ----
         (COGS, _('Cost of Goods Sold')),
 

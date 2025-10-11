@@ -27,7 +27,7 @@
                 <span class="icon has-text-danger">{% icon 'mdi:stop-remove' 24 %}</span>
             {% endif %}
         </h3>
-        <h4>CoA ID: <span class="has-text-danger has-font-weight-light">{{ coa_model.slug }}</span></h4>
+        <h4>{% trans 'CoA ID:' %} <span class="has-text-danger has-font-weight-light">{{ coa_model.slug }}</span></h4>
         <h4>{% trans 'Total Accounts' %}: {{ coa_model.accountmodel_total__count }}</h4>
         <h4><span class="has-text-info">{% trans 'Active Accounts' %}</span>: {{ coa_model.accountmodel_active__count }}
         </h4>
@@ -35,10 +35,10 @@
                 class="has-text-danger">{% trans 'Locked Accounts' %}</span>: {{ coa_model.accountmodel_locked__count }}
         </h4>
         <p class="mt-2"><span class="has-text-weight-bold">
-            {% trans 'Created' %}</span>: {{ coa_model.created | date }}
+            {% trans 'Created:' %}</span> {{ coa_model.created | date }}
         </p>
         <p><span class="has-text-weight-bold">
-            {% trans 'Updated' %}</span>: {{ coa_model.created | timesince }} {% trans 'ago' %}
+            {% trans 'Updated:' %}</span> {% if coa_model.created %}{{ coa_model.created }}{% else %}{% blocktranslate %}{{ timesince }} ago{% endblocktranslate %}{% endif %}
         </p>
     </div>
 

@@ -11,6 +11,7 @@ if not SECRET_KEY:
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.102', 'localhost']
+INTERNAL_IPS = [ *ALLOWED_HOSTS,]
 CSRF_TRUSTED_ORIGINS = ['https://*.preview.app.github.dev']
 
 INSTALLED_APPS = [
@@ -21,6 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_ledger',
+    'debug_toolbar',
+    
 ]
 
 if DJANGO_LEDGER_GRAPHQL_SUPPORT_ENABLED:
@@ -38,6 +41,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE = [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        *MIDDLEWARE,
+    ]
 
 ROOT_URLCONF = 'dev_env.urls'
 
@@ -90,10 +99,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 USE_TZ = True
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
 USE_L10N = True

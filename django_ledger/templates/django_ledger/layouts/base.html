@@ -36,6 +36,7 @@
 {% endblock %}
 
 {% block script_bottom %}
+    <script src="{% url 'javascript-catalog' %}"></script>
     <script src="{% static 'django_ledger/bundle/djetler.bundle.js' %}"></script>
 
     <script>

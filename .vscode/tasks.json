@@ -1,0 +1,49 @@
+{
+	"version": "2.0.0",
+	"inputs": [
+		{
+			"id": "djangoLanguage",
+			"type": "promptString",
+			"description": "Enter the language code ('fr', 'es_MX', etc.)",
+			"default": "es"
+		}
+	],
+	"tasks": [
+		{
+			"label": "Django: Make messages",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"${workspaceFolder}/manage.py",
+				"makemessages",
+				"-l",
+				"${input:djangoLanguage}"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": [
+				"$python"
+			],
+			"detail": "Creates a translation messages file in the specified language."
+		},
+		{
+			"label": "Django: Compile messages",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"${workspaceFolder}/manage.py",
+				"compilemessages"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": [
+				"$python"
+			],
+			"detail": "Compiles all translation messages."
+		}
+	]
+}

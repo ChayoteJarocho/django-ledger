@@ -117,13 +117,13 @@ class PnLChart extends BaseChart {
                 labels: chartLabels,
                 datasets: [
                     {
-                        label: 'Income',
+                        label: gettext('Income'),
                         backgroundColor: 'rgb(70,160,45)',
                         borderColor: 'rgb(115,255,99)',
                         data: income
                     },
                     {
-                        label: 'Expenses',
+                        label: gettext('Expenses'),
                         backgroundColor: 'rgb(231,46,75)',
                         borderColor: 'rgb(255, 99, 132)',
                         data: expenses
@@ -151,12 +151,13 @@ class PnLChart extends BaseChart {
 
             // @ts-ignore
             const ctx = document.getElementById(this.selector) as ChartItem
+            let i_and_e = gettext('Income and Expenses')
             let chartOptions: ChartOptions = {
 
                 plugins: {
                     title: {
                         display: true,
-                        text: `${entityName} - Income & Expenses`,
+                        text: `${entityName} - ${i_and_e}`,
                         font: {
                             size: 20
                         }

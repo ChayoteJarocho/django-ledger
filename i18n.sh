@@ -1,0 +1,11 @@
+#!/bin/bash
+
+i18n_array=( "cy_AZ_AZ" "cy_SR_SP" "cy_UZ_UZ" "lt_AZ_AZ" "lt_SR_SP" "lt_UZ_UZ" "aa" "ab" "ae" "af" "af_ZA" "ak" "am" "an" "ar" "ar_AE" "ar_BH" "ar_DZ" "ar_EG" "ar_IQ" "ar_JO" "ar_KW" "ar_LB" "ar_LY" "ar_MA" "ar_OM" "ar_QA" "ar_SA" "ar_SY" "ar_TN" "ar_YE" "as" "av" "ay" "az" "ba" "be" "be_BY" "bg" "bg_BG" "bh" "bi" "bm" "bn" "bo" "br" "bs" "ca" "ca_ES" "ce" "ch" "co" "cr" "cs" "cs_CZ" "cu" "cv" "cy" "da" "da_DK" "de" "de_AT" "de_CH" "de_DE" "de_LI" "de_LU" "div_MV" "dv" "dz" "ee" "el" "el_GR" "en" "en_AU" "en_BZ" "en_CA" "en_CB" "en_GB" "en_IE" "en_JM" "en_NZ" "en_PH" "en_TT" "en_US" "en_ZA" "en_ZW" "eo" "es" "es_AR" "es_BO" "es_CL" "es_CO" "es_CR" "es_DO" "es_EC" "es_ES" "es_GT" "es_HN" "es_MX" "es_NI" "es_PA" "es_PE" "es_PR" "es_PY" "es_SV" "es_UY" "es_VE" "et" "et_EE" "eu" "eu_ES" "fa" "fa_IR" "ff" "fi" "fi_FI" "fj" "fo" "fo_FO" "fr" "fr_BE" "fr_CA" "fr_CH" "fr_FR" "fr_LU" "fr_MC" "fy" "ga" "gd" "gl" "gl_ES" "gn" "gu" "gu_IN" "gv" "ha" "he" "he_IL" "hi" "hi_IN" "ho" "hr" "hr_HR" "ht" "hu" "hu_HU" "hy" "hy_AM" "hz" "ia" "id" "id_ID" "ie" "ig" "ii" "ik" "io" "is" "is_IS" "it" "it_CH" "it_IT" "iu" "ja" "ja_JP" "jv" "ka" "ka_GE" "kg" "ki" "kj" "kk" "kk_KZ" "kl" "km" "kn" "kn_IN" "ko" "ko_KR" "kr" "ks" "ku" "kv" "kw" "ky" "ky_KZ" "la" "lb" "lg" "li" "ln" "lo" "lt" "lt_LT" "lu" "lv" "lv_LV" "mg" "mh" "mi" "mk" "mk_MK" "ml" "mn" "mn_MN" "mr" "mr_IN" "ms" "ms_BN" "ms_MY" "mt" "my" "na" "nb" "nb_NO" "nd" "ne" "ng" "nl" "nl_BE" "nl_NL" "nn" "nn_NO" "no" "nr" "nv" "ny" "oc" "oj" "om" "or" "os" "pa" "pa_IN" "pi" "pl" "pl_PL" "ps" "pt" "pt_BR" "pt_PT" "qu" "rm" "rn" "ro" "ro_RO" "ru" "ru_RU" "rw" "sa" "sa_IN" "sc" "sd" "se" "sg" "si" "sk" "sk_SK" "sl" "sl_SI" "sm" "sn" "so" "sq" "sq_AL" "sr" "ss" "st" "su" "sv" "sv_FI" "sv_SE" "sw" "sw_KE" "ta" "ta_IN" "te" "te_IN" "tg" "th" "th_TH" "ti" "tk" "tl" "tn" "to" "tr" "tr_TR" "ts" "tt" "tt_RU" "tw" "ty" "ug" "uk" "uk_UA" "ur" "ur_PK" "uz" "ve" "vi" "vi_VN" "vo" "wa" "wo" "xh" "yi" "yo" "za" "zh" "zh_CHS" "zh_CHT" "zh_CN" "zh_HK" "zh_MO" "zh_SG" "zh_TW" "zu" )
+
+length=${#i18n_array[@]}
+
+for (( j=0; j<length; j++ ));
+do
+  printf "Creating %s file\n" "${i18n_array[$j]}"
+  django-admin makemessages -l ${i18n_array[$j]}
+done

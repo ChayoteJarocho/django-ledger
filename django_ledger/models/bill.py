@@ -1665,7 +1665,7 @@ class BillModelAbstract(
             return
         if not self.can_delete():
             raise BillModelValidationError(
-                message=_(f'Bill {self.bill_number} cannot be deleted...')
+                message=_('Bill %(bn)s cannot be deleted...') % {'bn': self.bill_number}
             )
         return super().delete(using=using, keep_parents=keep_parents)
 

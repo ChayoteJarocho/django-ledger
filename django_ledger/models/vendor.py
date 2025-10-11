@@ -174,14 +174,14 @@ class VendorModelAbstract(ContactInfoMixIn,
     """
     uuid = models.UUIDField(default=uuid4, editable=False, primary_key=True)
     vendor_number = models.CharField(max_length=30, null=True, blank=True)
-    vendor_name = models.CharField(max_length=100)
+    vendor_name = models.CharField(max_length=100, verbose_name=_('Vendor Name'))
 
     entity_model = models.ForeignKey('django_ledger.EntityModel',
                                      on_delete=models.CASCADE,
                                      verbose_name=_('Vendor Entity'))
     description = models.TextField()
-    active = models.BooleanField(default=True)
-    hidden = models.BooleanField(default=False)
+    active = models.BooleanField(default=True, verbose_name=_('Active'))
+    hidden = models.BooleanField(default=False, verbose_name=_('Hidden'))
 
     additional_info = models.JSONField(null=True, blank=True, default=dict)
 

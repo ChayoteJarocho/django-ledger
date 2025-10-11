@@ -91,7 +91,7 @@ class QuarterlyReportMixIn(YearMixin, ContextFromToDateMixin, EntityModelFiscalP
             except ValidationError:
                 raise Http404(_("Invalid quarter number"))
         except ValueError:
-            raise Http404(_(f"Invalid quarter format. Cannot parse {quarter} into integer."))
+            raise Http404(_("Invalid quarter format. Cannot parse %(quarter)s into integer.") % { 'quarter': quarter })
         return quarter
 
     def get_quarter(self) -> int:
@@ -262,7 +262,7 @@ class FromToDatesParseMixIn:
             query_param = self.DJL_FROM_DATE_PARAM
         parsed_date = self.parse_date_from_query_param(query_param)
         if not parsed_date and self.DJL_NO_FROM_DATE_RAISE_404:
-            raise Http404(_(f'Must provide {query_param} date parameter.'))
+            raise Http404(_('Must provide %(query_param)s date parameter.') % { 'query_param': query_param })
         return parsed_date
 
     def get_to_date(self, query_param: str = None) -> date:
@@ -270,7 +270,7 @@ class FromToDatesParseMixIn:
             query_param = self.DJL_TO_DATE_PARAM
         parsed_date = self.parse_date_from_query_param(query_param)
         if not parsed_date and self.DJL_NO_TO_DATE_RAISE_404:
-            raise Http404(_(f'Must provide {query_param} date parameter.'))
+            raise Http404(_('Must provide %(query_param)s date parameter.') % { 'query_param': query_param })
         return parsed_date
 
     def get_from_to_dates(self, query_param: str = None) -> Tuple[date, date]:
@@ -283,7 +283,8 @@ class FromToDatesParseMixIn:
         if param_date:
             parsed_date = parse_date(param_date)
             if not parsed_date:
-                raise Http404(_(f'Invalid {query_param} {param_date} provided'))
+                raise Http404(_('Invalid %(query_param)s %(param_date)s provided') % { 
+                    'query_param': query_param, 'param_date': param_date })
             param_date = parsed_date
         return param_date
 
@@ -596,7 +597,7 @@ class PDFReportMixIn:
 
     def get_pdf_response(self) -> HttpResponse:
         if not DJANGO_LEDGER_PDF_SUPPORT_ENABLED:
-            return HttpResponseNotFound(content='PDF format is not supported')
+            return HttpResponseNotFound(content=_('PDF support not enabled. Install PDF support from Pipfile.'))
         pdf = self.get_pdf()
         response = HttpResponse(
             bytes(pdf.output()),

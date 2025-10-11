@@ -391,7 +391,7 @@ class AccountModelManager(MP_NodeManager):
 
 def account_code_validator(value: str):
     if not value.isalnum():
-        raise AccountModelValidationError(_('Account code must be alpha numeric, got {%s}') % value)
+        raise AccountModelValidationError(_('Account code must be alpha numeric: %(value)s') % {'value': value})
 
 
 class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
@@ -431,7 +431,7 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
     code = models.CharField(max_length=10, verbose_name=_('Account Code'), validators=[account_code_validator])
     name = models.CharField(max_length=100, verbose_name=_('Account Name'))
     role = models.CharField(max_length=30, choices=ACCOUNT_ROLE_CHOICES, verbose_name=_('Account Role'))
-    role_default = models.BooleanField(null=True, blank=True, verbose_name=_('Coa Role Default Account'))
+    role_default = models.BooleanField(null=True, blank=True, verbose_name=_('CoA Role Default Account'))
     balance_type = models.CharField(max_length=6, choices=BALANCE_TYPE, verbose_name=_('Account Balance Type'))
     locked = models.BooleanField(default=False, verbose_name=_('Locked'))
     active = models.BooleanField(default=False, verbose_name=_('Active'))
@@ -785,7 +785,7 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
         if not self.can_lock():
             if raise_exception:
                 raise AccountModelValidationError(
-                    message=_(f'Cannot lock account {self.code}: {self.name}. Active: {self.is_active()}')
+                    message=_('Cannot lock account %(code)s: %(name)s. Active: %(active)s') % { 'code': self.code, 'name': self.name, 'active': self.is_active() }
                 )
             return
 
@@ -800,7 +800,7 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
         if not self.can_unlock():
             if raise_exception:
                 raise AccountModelValidationError(
-                    message=_(f'Cannot unlock account {self.code}: {self.name}. Active: {self.is_active()}')
+                    message=_('Cannot unlock account %(code)s: %(name)s. Active: %(active)s') % { 'code': self.code, 'name': self.name, 'active': self.is_active() }
                 )
             return
 
@@ -828,7 +828,8 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
         if not self.can_activate():
             if raise_exception:
                 raise AccountModelValidationError(
-                    message=_(f'Cannot activate account {self.code}: {self.name}. Active: {self.is_active()}')
+                    message=_('Cannot activate account %(code)s: %(name)s. Active: %(active)s') % {
+                        'code': self.code, 'name': self.name, 'active': self.is_active() }
                 )
             return
         self.active = True
@@ -855,7 +856,7 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
         if not self.can_deactivate():
             if raise_exception:
                 raise AccountModelValidationError(
-                    message=_(f'Cannot deactivate account {self.code}: {self.name}. Active: {self.is_active()}')
+                    message=_('Cannot deactivate account %(code)s: %(name)s. Active: %(active)s') % { 'code': self.code, 'name': self.name, 'active': self.is_active() }
                 )
             return
         self.active = False
@@ -1092,8 +1093,9 @@ class AccountModelAbstract(MP_Node, CreateUpdateMixIn):
         if DJANGO_LEDGER_ACCOUNT_CODE_USE_PREFIX:
             pf = self.get_code_prefix()
             if self.code[0] != pf:
-                raise AccountModelValidationError(f'Account {self.get_role_display()} code {self.code} '
-                                                  f'must start with {pf} for CoA consistency')
+                raise AccountModelValidationError(_('Account %(role)s code %(code)s '
+                                                  'must start with %(pf)s for CoA consistency') % {
+                                                      'role' : self.get_role_display(), 'code' : self.code, 'pf' : pf})
 
 
 class AccountModel(AccountModelAbstract):

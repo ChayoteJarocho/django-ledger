@@ -585,8 +585,8 @@ class IODatabaseMixIn:
         elif self.is_entity_unit_model():
             return getattr(self, 'entity')
         raise IOValidationError(
-            message=_(f'IODatabaseMixIn not compatible with {self.__class__.__name__} model.')
-        )
+            message=_('IODatabaseMixIn not compatible with %(class_name)s model.') % { 
+                'class_name' : {self.__class__.__name__} })
 
     def get_transaction_model(self):
         """
@@ -1363,15 +1363,11 @@ class IODatabaseMixIn:
             if isinstance(je_timestamp, datetime):
                 if entity_model.last_closing_date >= je_timestamp.date():
                     raise IOValidationError(
-                        message=_(
-                            f'Cannot commit transactions. The journal entry date {je_timestamp} is on a closed period.')
-                    )
+                        message=self.get_iovalidationerror_message_for_last_closing_date(je_timestamp))
             elif isinstance(je_timestamp, date):
                 if entity_model.last_closing_date >= je_timestamp:
                     raise IOValidationError(
-                        message=_(
-                            f'Cannot commit transactions. The journal entry date {je_timestamp} is on a closed period.')
-                    )
+                        message=self.get_iovalidationerror_message_for_last_closing_date(je_timestamp))
 
         if self.is_ledger_model():
             if self.is_locked():
@@ -1392,7 +1388,8 @@ class IODatabaseMixIn:
             je_ledger_model is not None,
         ]):
             if je_ledger_model.entity_id != self.uuid:
-                raise IOValidationError(f'LedgerModel {je_ledger_model} does not belong to {self}')
+                raise IOValidationError('LedgerModel %(jlm)s does not belong to %(s)s' % {
+                    'jlm' : je_ledger_model, 's' : self })
 
         # Validates that the provided EntityUnitModel id valid...
         if all([
@@ -1400,7 +1397,8 @@ class IODatabaseMixIn:
             je_unit_model is not None,
         ]):
             if je_unit_model.entity_id != self.uuid:
-                raise IOValidationError(f'EntityUnitModel {je_unit_model} does not belong to {self}')
+                raise IOValidationError('EntityUnitModel %(jum)s does not belong to %(s)s' % {
+                    'jum' : je_unit_model, 's' : self })
 
         if not je_ledger_model:
             je_ledger_model = self
@@ -1412,11 +1410,11 @@ class IODatabaseMixIn:
                 elif isinstance(je_timestamp, date):
                     je_model = je_ledger_model.journal_entries.get(timestamp__date__exact=je_timestamp)
                 else:
-                    raise IOValidationError(message=_(f'Invalid timestamp type {type(je_timestamp)}'))
+                    raise IOValidationError(message=_('Invalid timestamp type %(je_ts)s')) % { 'je_ts' : {type(je_timestamp)} }
             except ObjectDoesNotExist:
                 raise IOValidationError(
-                    message=_(f'Unable to retrieve Journal Entry model with Timestamp {je_timestamp}')
-                )
+                    message=_('Unable to retrieve Journal Entry model with Timestamp %(je_ts)s') % {
+                        'je_ts': je_timestamp })
         else:
             je_model = JournalEntryModel(
                 ledger=je_ledger_model,
@@ -1453,6 +1451,11 @@ class IODatabaseMixIn:
         txs_models = TransactionModel.objects.bulk_create(i[0] for i in txs_models)
         je_model.save(verify=True, post_on_verify=je_posted)
         return je_model, txs_models
+    
+    def get_iovalidationerror_message_for_last_closing_date(self, ts):
+        return _(
+            'Cannot commit transactions. The journal entry date %(ts)s is on a closed period.') % { 'ts' : ts}
+
 
 
 class IOReportMixIn:

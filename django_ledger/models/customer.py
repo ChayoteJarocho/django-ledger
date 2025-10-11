@@ -170,17 +170,17 @@ class CustomerModelAbstract(ContactInfoMixIn, TaxCollectionMixIn, CreateUpdateMi
     """
 
     uuid = models.UUIDField(default=uuid4, editable=False, primary_key=True)
-    customer_name = models.CharField(max_length=100)
+    customer_name = models.CharField(max_length=100, verbose_name=_('Customer Name'))
     customer_number = models.CharField(max_length=30, editable=False, verbose_name=_('Customer Number'))
     entity_model = models.ForeignKey('django_ledger.EntityModel',
                                      editable=False,
                                      on_delete=models.CASCADE,
                                      verbose_name=_('Customer Entity'))
-    description = models.TextField()
-    active = models.BooleanField(default=True)
-    hidden = models.BooleanField(default=False)
+    description = models.TextField(verbose_name=_('Description'))
+    active = models.BooleanField(default=True, verbose_name=_('Active'))
+    hidden = models.BooleanField(default=False, verbose_name=_('Hidden'))
 
-    additional_info = models.JSONField(null=True, blank=True, default=dict)
+    additional_info = models.JSONField(null=True, blank=True, default=dict, verbose_name=_('Additional Info'))
 
     objects = CustomerModelManager.from_queryset(queryset_class=CustomerModelQueryset)()
 
@@ -200,7 +200,7 @@ class CustomerModelAbstract(ContactInfoMixIn, TaxCollectionMixIn, CreateUpdateMi
 
     def __str__(self):
         if not self.customer_number:
-            f'Unknown Customer: {self.customer_name}'
+            _('Unknown Customer: %(customer_name)s') % {'customer_name': self.customer_name}
         return f'{self.customer_number}: {self.customer_name}'
 
     def can_generate_customer_number(self) -> bool:

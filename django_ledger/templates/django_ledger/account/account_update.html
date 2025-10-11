@@ -16,9 +16,9 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="button is-primary is-fullwidth djetler_my_1">Submit</button>
+                        <button type="submit" class="button is-primary is-fullwidth djetler_my_1">{% trans 'Update' %}</button>
                         <a class="button is-dark is-small is-fullwidth"
-                           href="{{ coa_model.get_account_list_url }}">Back</a>
+                           href="{{ coa_model.get_account_list_url }}">{% trans 'Back' %}</a>
                     </form>
                 </div>
             </div>

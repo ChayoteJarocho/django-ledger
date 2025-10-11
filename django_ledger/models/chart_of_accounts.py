@@ -258,7 +258,7 @@ class ChartOfAccountModelAbstract(SlugNameMixIn, CreateUpdateMixIn):
 
         if account_model.coa_model_id != self.uuid:
             raise ChartOfAccountsModelValidationError(
-                message=_(f'The account model {account_model} is not part of the chart of accounts {self.name}.'),
+                message=_('The account model %(account_model)s is not part of the chart of accounts %(coa_name)s.') % {'account_model': account_model, 'coa_name': self.name}
             )
 
         if not account_model.is_root_account():
@@ -360,7 +360,7 @@ class ChartOfAccountModelAbstract(SlugNameMixIn, CreateUpdateMixIn):
         if self.slug:
             if raise_exception:
                 raise ChartOfAccountsModelValidationError(
-                    message=_(f'CoA {self.uuid} already has a slug')
+                    message=_('CoA %(uuid)s already has a slug') % {'uuid': self.uuid}
                 )
             return
         self.slug = f'coa-{self.entity.slug[-5:]}-' + ''.join(choices(SLUG_SUFFIX, k=15))
@@ -613,13 +613,13 @@ class ChartOfAccountModelAbstract(SlugNameMixIn, CreateUpdateMixIn):
         if self.is_default():
             if raise_exception:
                 raise ChartOfAccountsModelValidationError(
-                    message=_(f'The Chart of Accounts {self.slug} is already default')
+                    message=_('The Chart of Accounts %(slug)s is already default') % {'slug': self.slug}
                 )
             return
         if not self.can_mark_as_default():
             if raise_exception:
                 raise ChartOfAccountsModelValidationError(
-                    message=_(f'The Chart of Accounts {self.slug} cannot be marked as default')
+                    message=_('The Chart of Accounts %(slug)s cannot be marked as default') % {'slug': self.slug}
                 )
             return
         self.entity.default_coa_id = self.uuid

@@ -22,12 +22,12 @@
 
         </h3>
 
-        <h4>Created: {{ entity.created | timesince }} ago</h4>
-        <p class="is-italic">{% trans 'Last Closing Date' %}: {{ entity.last_closing_date }}</p>
+        <h4>{% trans 'Created' %}: {% if entity.created %}{{ entity.created }}{% else %}{% blocktranslate %}{ timesince } ago{% endblocktranslate %}{% endif %}</h4>
+        <p class="is-italic">{% trans 'Last Closing Date' %}: {% if entity.last_closing_date %}{{ entity.last_closing_date }}{%else %}{% trans 'None' %}{% endif %}</p>
     </div>
     <footer class="card-footer">
-        <a href="{{ entity.get_dashboard_url }}" class="card-footer-item">Dashboard</a>
-        <a href="{{ entity.get_manage_url }}" class="card-footer-item has-text-info">Manage</a>
-        <a href="{{ entity.get_delete_url }}" class="card-footer-item has-text-danger">Delete</a>
+        <a href="{{ entity.get_dashboard_url }}" class="card-footer-item">{% trans 'Dashboard' %}</a>
+        <a href="{{ entity.get_manage_url }}" class="card-footer-item has-text-info">{% trans 'Manage' %}</a>
+        <a href="{{ entity.get_delete_url }}" class="card-footer-item has-text-danger">{% trans 'Delete' %}</a>
     </footer>
 </div>
