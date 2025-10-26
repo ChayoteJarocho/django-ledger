@@ -202,7 +202,7 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
     def mark_as_posted(self, commit: bool = False, update_entity_meta: bool = True, **kwargs):
         if not self.can_post():
             raise ClosingEntryValidationError(
-                message=_(f'Closing Entry {self.closing_date} is already posted.')
+                message=_('Closing Entry %(closing)s is already posted.') % {'closing': self.closing_date}
             )
 
         self.migrate()
@@ -221,7 +221,7 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
         return f'closing_entry_post_{self.uuid}'
 
     def get_mark_as_posted_message(self):
-        return _(f'Are you sure you want to post Closing Entry dated {self.closing_date}?')
+        return _('Are you sure you want to post Closing Entry dated %(closing_date)s?') % {'closing_date': self.closing_date}
 
     def get_mark_as_posted_url(self, entity_slug: Optional[str] = None) -> str:
         if not entity_slug:
@@ -239,7 +239,7 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
     def mark_as_unposted(self, commit: bool = False, update_entity_meta: bool = True, **kwargs):
         if not self.can_unpost():
             raise ClosingEntryValidationError(
-                message=_(f'Closing Entry {self.closing_date} is not posted.')
+                message=_('Closing Entry %(closing_date)s is not posted.') % {'closing_date': self.closing_date}
             )
 
         self.ledger_model.unlock(commit=False, raise_exception=True)
@@ -265,7 +265,7 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
         return f'closing_entry_unpost_{self.uuid}'
 
     def get_mark_as_unposted_message(self):
-        return _(f'Are you sure you want to unpost Closing Entry dated {self.closing_date}?')
+        return _('Are you sure you want to unpost Closing Entry dated %(closing_date)s?') % {'closing_date': self.closing_date}
 
     def get_mark_as_unposted_url(self, entity_slug: Optional[str] = None) -> str:
         if not entity_slug:
@@ -296,8 +296,8 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
         return f'closing_entry_update_txs_{self.uuid}'
 
     def get_update_transactions_message(self):
-        return _(f'Are you sure you want to update all Closing Entry {self.closing_date} transactions? '
-                 'This action will delete existing closing entry transactions and create new ones.')
+        return _('Are you sure you want to update all Closing Entry %(closing_date)s transactions? '
+                 'This action will delete existing closing entry transactions and create new ones.') % {'closing_date': self.closing_date}
 
     def get_update_transactions_url(self, entity_slug: Optional[str] = None) -> str:
         if not entity_slug:
@@ -330,8 +330,8 @@ class ClosingEntryModelAbstract(CreateUpdateMixIn, MarkdownNotesMixIn):
         return f'closing_entry_delete_txs_{self.uuid}'
 
     def get_delete_message(self):
-        return _(f'Are you sure you want to delete Closing Entry {self.closing_date}? '
-                 'This action cannot be undone.')
+        return _('Are you sure you want to delete Closing Entry %(closing_date)s? '
+                 'This action cannot be undone.') % {'closing_date': self.closing_date}
 
     def get_delete_url(self, entity_slug: Optional[str] = None) -> str:
         if not entity_slug:

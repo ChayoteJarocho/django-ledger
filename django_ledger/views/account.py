@@ -151,7 +151,10 @@ class AccountModelUpdateView(BaseAccountModelBaseView, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = _('Update Account')
-        context['header_title'] = _(f'Update Account: {self.object.code} - {self.object.name}')
+        context['header_title'] = _('Update Account: %(obj_code)s - %(obj_name)s') % {
+            'obj_code': self.object.code,
+            'obj_name': self.object.name
+        }
         context['header_subtitle_icon'] = 'ic:twotone-account-tree'
         return context
 

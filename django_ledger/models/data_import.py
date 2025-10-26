@@ -274,7 +274,7 @@ class ImportJobModelAbstract(CreateUpdateMixIn):
                     ])
 
     def get_delete_message(self) -> str:
-        return _(f'Are you sure you want to delete Import Job {self.description}?')
+        return _('Are you sure you want to delete Import Job %(description)s?') % {'description': self.description}
 
 
 class StagedTransactionModelQuerySet(QuerySet):
@@ -928,7 +928,7 @@ class StagedTransactionModelAbstract(CreateUpdateMixIn):
         if not self.can_split():
             if raise_exception:
                 raise ImportJobModelValidationError(
-                    message=_(f'Staged Transaction {self.uuid} already split.')
+                    message=_('Staged Transaction %(uuid)s already split.') % {'uuid': self.uuid},
                 )
             return
 

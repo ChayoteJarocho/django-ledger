@@ -14,9 +14,9 @@
                     <form method="post" id="{{ form.get_form_id }}">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="button is-primary is-fullwidth djetler_my_1">Submit</button>
+                        <button type="submit" class="button is-primary is-fullwidth djetler_my_1">{% trans 'Create' %}</button>
                         <a class="button is-dark is-small is-fullwidth"
-                           href="{{ entity_model.get_coa_list_url }}">Back</a>
+                           href="{{ entity_model.get_coa_list_url }}">{% trans 'Go Back' %}</a>
                     </form>
                 </div>
             </div>

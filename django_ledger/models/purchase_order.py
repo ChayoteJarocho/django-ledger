@@ -204,7 +204,7 @@ class PurchaseOrderModelAbstract(CreateUpdateMixIn,
                                 validators=[
                                     MinLengthValidator(limit_value=5,
                                                        message=_(
-                                                           f'PO Title must be greater than 5'))
+                                                    'PO Title must be greater than 5'))
                                 ])
     po_status = models.CharField(max_length=10, choices=PO_STATUS, default=PO_STATUS[0][0])
     po_amount = models.DecimalField(default=0, decimal_places=2, max_digits=20, verbose_name=_('Purchase Order Amount'))

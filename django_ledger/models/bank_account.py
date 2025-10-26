@@ -179,7 +179,7 @@ class BankAccountModelAbstract(FinancialAccountInfoMixin, CreateUpdateMixIn):
         ]
 
     def __str__(self):
-        return f'{self.get_account_type_display()} Bank Account: {self.name}'
+        return _('%(account_type)s Bank Account: %(name)s') % { 'account_type': self.get_account_type_display(), 'name': self.name }
 
     def can_hide(self) -> bool:
         return self.hidden is False

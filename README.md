@@ -258,31 +258,40 @@ python manage.py test django_ledger
 1. Generate the *.po file containing all the strings that need translation for your selected locale using the command `django-admin makemessages -l <ll|ll_CC>`. Examples:
 
     ```bash
-    $ django-admin makemessages -l es_MX --ignore assets/node_modules
-    $ django-admin makemessages -l fr --ignore assets/node_modules
+    django-admin makemessages -l es_MX --ignore assets/node_modules
+    django-admin makemessages -l fr --ignore assets/node_modules
     ```
 
     Note: The `node_modules` folder needs to be explicitly ignored because it is traversed by default, but it contains hundreds of unrelated external dependencies that do not contain strings for django to translate. Plus, many of those files contain bytes that can't be decoded, which can show several warnings or errors.
 
 1. If you also added gettext calls to javascript or typescript, you need additional steps:
 
-    - First, you add your gettext calls to js and ts files. For example
-    
+    - First, you add your gettext calls to js and ts files. For example:
+
         ```typescript
         let i_and_e = gettext('Income and Expenses')
         ```
+
     - Then, you compile the typescript code (assuming you already installed all the required dependencies):
 
         ```bash
-        $ cd assets/
-        $ npm run build
-        $ cd ../
+        cd assets/
+        npm run build
+        cd ../
+        ```
+
+    - If you get an error due to webpack not found when running `npm run build`, make sure to first install webpack, then run npm again:
+
+        ```bash
+        npm install --save-dev webpack webpack-cli
+        npm run build
+        cd ../
         ```
 
     - Now you generate the javascript specific po file by analyzing only the Django Ledger specific js and ts files:
 
         ```bash
-        $ django-admin makemessages -l es_MX -d djangojs --ignore assets/node_modules --extension=js,ts
+        django-admin makemessages -l es_MX -d djangojs --ignore assets/node_modules --extension=js,ts
         ```
 
 1. Open your generated localization files:
@@ -295,7 +304,7 @@ python manage.py test django_ledger
 1. Compile the translated messages using:
 
     ```bash
-    $ django-admin compilemessages
+    django-admin compilemessages
     ```
 
 1. Open the `dev_env/settings.py` file and change `LANGUAGE_CODE` to your new language code. It's in the format `ll-cc` or `ll`, as described in the [official Django documentation](https://docs.djangoproject.com/en/5.2/topics/i18n/#term-language-code). Examples:
@@ -309,6 +318,7 @@ python manage.py test django_ledger
     ```python
     LANGUAGE_CODE = 'fr'
     ```
+
 1. Run the server with `python manage.py runserver`. Your strings should show up in your selected locale and language.
 
 # Screenshots

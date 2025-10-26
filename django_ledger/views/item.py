@@ -82,7 +82,8 @@ class UnitOfMeasureModelCreateView(UnitOfMeasureModelModelBaseView, CreateView):
         except ObjectDoesNotExist:
             add_message(self.request,
                         level=ERROR,
-                        message=_(f'User {self.request.user.username} cannot access entity {entity_slug}.'),
+                        message=_('User %(username)s cannot access entity %(entity_slug)s.') % { 
+                            'username': self.request.user.username, 'entity_slug': entity_slug },
                         extra_tags='is-danger')
         else:
             try:
@@ -91,8 +92,8 @@ class UnitOfMeasureModelCreateView(UnitOfMeasureModelModelBaseView, CreateView):
                 unit_abbr = form.cleaned_data['unit_abbr']
                 add_message(self.request,
                             level=ERROR,
-                            message=_(
-                                f'The Unit of Measure {unit_abbr} already created for Entity {entity_model.name}.'),
+                            message=_('The Unit of Measure %(a)s already exists for Entity %(em)s.') % {
+                                'a' : unit_abbr, 'em' : entity_model.name },
                             extra_tags='is-danger')
                 return self.render_to_response(self.get_context_data(form=form))
         return super().form_valid(form)

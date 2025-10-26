@@ -83,8 +83,9 @@ class ChartOfAccountModelUpdateView(ChartOfAccountModelModelBaseViewMixIn, Updat
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         chart_of_accounts_model: ChartOfAccountModel = self.object
-        context['page_title'] = f'Update Chart of Account {chart_of_accounts_model.name}'
-        context['header_title'] = f'Update Chart of Account {chart_of_accounts_model.name}'
+        title = _('Update Chart of Account %(name)s') % {'name': chart_of_accounts_model.name}
+        context['page_title'] = title
+        context['header_title'] = title
         return context
 
     def get_success_url(self):
@@ -115,9 +116,9 @@ class CharOfAccountModelActionView(ChartOfAccountModelModelBaseViewMixIn,
         try:
             getattr(coa_model, self.action_name)(commit=self.commit, **kwargs)
             messages.add_message(request, level=messages.SUCCESS, extra_tags='is-success',
-                                 message=_('Successfully updated {} Default Chart of Account to '.format(
-                                     self.AUTHORIZED_ENTITY_MODEL.name) +
-                                           '{}'.format(coa_model.name)))
+                                 message=_("Successfully updated %(aemn)s. Default Chart of Account to %(cmn)s") % {
+                                     'aemn' : self.AUTHORIZED_ENTITY_MODEL.name,
+                                     'cmn': coa_model.name })
         except ValidationError as e:
             messages.add_message(request,
                                  message=e.message,

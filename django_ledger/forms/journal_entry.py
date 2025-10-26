@@ -73,7 +73,8 @@ class JournalEntryModelUpdateForm(ModelForm):
             je_model: JournalEntryModel = self.instance
             if je_model.is_in_locked_period(new_timestamp=new_timestamp):
                 raise ValidationError(
-                    message=_(f'Invalid timestamp {self.cleaned_data["timestamp"]} due to Closing Entries.')
+                    message=_('Invalid timestamp %(ts)s due to Closing Entries.') % {
+                        'ts': { self.cleaned_data["timestamp"] } },
                 )
         return self.cleaned_data['timestamp']
 

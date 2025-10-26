@@ -84,7 +84,9 @@ class EntityDataGenerator(LoggingMixIn):
 
         if entity_model.admin != user_model:
             raise EntityModelValidationError(
-                message=_(f'User {user_model} must have admin privileges for entity model {entity_model}.')
+                message=_('User %(um)s must have admin privileges for entity model %(em)s.') % {
+                    'um' : user_model,
+                    'em': entity_model }
             )
 
         self.fk = Faker(['en_US'])
@@ -322,7 +324,7 @@ class EntityDataGenerator(LoggingMixIn):
         UOMs = {
             'unit': 'Unit',
             'ln-ft': 'Linear Feet',
-            'sq-ft': 'Square Fee t',
+            'sq-ft': 'Square Feet',
             'lb': 'Pound',
             'pallet': 'Pallet',
             'man-hour': 'Man Hour'

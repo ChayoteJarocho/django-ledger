@@ -1482,7 +1482,7 @@ class JournalEntryModelAbstract(CreateUpdateMixIn):
         str
             A confirmation message including the Journal Entry number and Ledger name.
         """
-        return _(f'Are you sure you want to delete JournalEntry Model {self.je_number} on Ledger {self.ledger.name}?')
+        return _('Are you sure you want to delete JournalEntry Model %(je_number)s on Ledger %(ledger_name)s?') % { 'je_number': self.je_number, 'ledger_name': self.ledger.name }
 
     def delete(self, **kwargs):
         """
@@ -1500,7 +1500,7 @@ class JournalEntryModelAbstract(CreateUpdateMixIn):
         """
         if not self.can_delete():
             raise JournalEntryValidationError(
-                message=_(f'JournalEntryModel {self.uuid} cannot be deleted...')
+                message=_('JournalEntryModel %(uuid)s cannot be deleted...') % {'uuid': self.uuid}
             )
         return super().delete(**kwargs)
 
@@ -1773,7 +1773,7 @@ def journalentrymodel_presave(instance: JournalEntryModel, **kwargs):
         # cannot add journal entries to a locked ledger...
         if instance.ledger_is_locked():
             raise JournalEntryValidationError(
-                message=_(f'Cannot add Journal Entries to locked LedgerModel {instance.ledger_id}')
+                message=_('Cannot add Journal Entries to locked LedgerModel %(ledger_id)s') % {'ledger_id': instance.ledger_id}
             )
     instance.generate_je_number(commit=False)
 

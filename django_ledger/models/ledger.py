@@ -274,7 +274,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
                 earliest_posted_je_timestamp = getattr(self, 'earliest_timestamp')
             else:
                 raise LedgerModelValidationError(
-                    message=_(f'earliest_timestamp not present in LedgerModel {self.uuid}'))
+                    message=_('Earliest_timestamp not present in LedgerModel %(uuid)s')) % {'uuid': self.uuid}
 
         last_closing_date = self.get_entity_last_closing_date()
         if last_closing_date is None:
@@ -458,7 +458,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_post():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.name} cannot be posted. UUID: {self.uuid}')
+                    message=_('Ledger %(name)s cannot be posted. UUID: %(uuid)s') % {'name': self.name, 'uuid': self.uuid}
                 )
             return
         self.posted = True
@@ -494,7 +494,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_unpost():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.uuid} cannot be unposted.')
+                    message=_('Ledger %(uuid)s cannot be unposted.') % {'uuid': self.uuid}
                 )
             return
         self.posted = False
@@ -523,7 +523,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_lock():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.name} cannot be locked. UUID: {self.uuid}')
+                    message=_('Ledger %(name)s cannot be locked. UUID: %(uuid)s') % {'name': self.name, 'uuid': self.uuid}
                 )
             return
         self.locked = True
@@ -557,7 +557,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_unlock():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.name} cannot be un-locked. UUID: {self.uuid}')
+                    message=_('Ledger %(name)s cannot be un-locked. UUID: %(uuid)s') % {'name': self.name, 'uuid': self.uuid}
                 )
             return
 
@@ -576,7 +576,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_hide():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.name} cannot be hidden. UUID: {self.uuid}')
+                    message=_('Ledger %(name)s cannot be hidden. UUID: %(uuid)s') % {'name': self.name, 'uuid': self.uuid}
                 )
             return
         self.hidden = True
@@ -594,7 +594,7 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         if not self.can_unhide():
             if raise_exception:
                 raise LedgerModelValidationError(
-                    message=_(f'Ledger {self.name} cannot be un-hidden. UUID: {self.uuid}')
+                    message=_('Ledger %(name)s cannot be un-hidden. UUID: %(uuid)s') % {'name': self.name, 'uuid': self.uuid}
                 )
             return
         self.hidden = False
@@ -611,8 +611,8 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
     def delete(self, **kwargs):
         if not self.can_delete():
             raise LedgerModelValidationError(
-                message=_(f'LedgerModel {self.name} cannot be deleted because posted is {self.is_posted()} '
-                          f'and locked is {self.is_locked()}')
+                message=_('LedgerModel %(name)s cannot be deleted because posted is %(is_posted)s '
+                          'and locked is %(is_locked)s') % {'name': self.name, 'is_posted': self.is_posted(), 'is_locked': self.is_locked() }
             )
 
         # checks if ledger model has journal entries in a closed period...
@@ -623,9 +623,10 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
                 if earliest_date <= self.entity.last_closing_date:
                     raise LedgerModelValidationError(
                         message=_(
-                            f'Journal Entries with date {earliest_date} cannot be deleted because of latest closing '
-                            f'entry on {self.get_entity_last_closing_date()}')
-                    )
+                            'Journal Entries with date %(ed)s cannot be deleted because of latest closing '
+                            'entry on %(lcd)s') % {
+                                'ed' : earliest_date,
+                                'lcd' : self.get_entity_last_closing_date() })
         return super().delete(**kwargs)
 
     def get_entity_name(self) -> str:
@@ -739,7 +740,8 @@ class LedgerModelAbstract(CreateUpdateMixIn, IOMixIn):
         )
 
     def get_delete_message(self):
-        return _(f'Are you sure you want to delete Ledger {self.name} from Entity {self.get_entity_name()}?')
+        return _('Are you sure you want to delete Ledger %(name)s from Entity %(entity_name)s?') % {
+            'name': self.name, 'entity_name': self.get_entity_name() }
 
     # Action URL...
     def get_action_post_journal_entries_url(self):

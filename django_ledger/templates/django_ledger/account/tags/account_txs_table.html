@@ -4,13 +4,13 @@
 <div class="table-container">
     <table class="table is-fullwidth is-narrow is-striped is-bordered django-ledger-table-bottom-margin-75">
         <tr>
-            <th class="has-text-centered">JE Number</th>
-            <th class="has-text-centered">Date</th>
-            <th class="has-text-centered">Credit</th>
-            <th class="has-text-centered">Debit</th>
-            <th class="has-text-centered">Description</th>
-            <th class="has-text-centered">Unit</th>
-            <th class="has-text-centered">Actions</th>
+            <th class="has-text-centered">{% trans 'JE Number' %}</th>
+            <th class="has-text-centered">{% trans 'Date' %}</th>
+            <th class="has-text-centered">{% trans 'Credit' %}</th>
+            <th class="has-text-centered">{% trans 'Debit' %}</th>
+            <th class="has-text-centered">{% trans 'Description' %}</th>
+            <th class="has-text-centered">{% trans 'Unit' %}</th>
+            <th class="has-text-centered">{% trans 'Actions' %}</th>
         </tr>
         {% for tx in transactions %}
             <tr class="has-text-centered">

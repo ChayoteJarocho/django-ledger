@@ -25,6 +25,7 @@ from django_ledger.models import BillModel, InvoiceModel, JournalEntryModel
 from django_ledger.settings import (
     DJANGO_LEDGER_FINANCIAL_ANALYSIS, DJANGO_LEDGER_CURRENCY_SYMBOL,
     DJANGO_LEDGER_SPACED_CURRENCY_SYMBOL)
+from django.utils.translation import gettext_lazy as _
 from django_ledger.utils import get_default_entity_session_key, get_end_date_from_session
 
 register = template.Library()
@@ -612,56 +613,56 @@ def navigation_menu(context, style):
         nav_menu_links = [
             {
                 'type': 'link',
-                'title': 'Entity Dashboard',
+                'title': _('Entity Dashboard'),
                 'url': reverse('django_ledger:entity-dashboard', kwargs={'entity_slug': ENTITY_SLUG})
             },
             {
                 'type': 'links',
-                'title': 'Management',
+                'title': _('Management'),
                 'links': [
                     {
                         'type': 'link',
-                        'title': 'Vendors',
+                        'title': _('Vendors'),
                         'url': reverse('django_ledger:vendor-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Customers',
+                        'title': _('Customers'),
                         'url': reverse('django_ledger:customer-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Bank Accounts',
+                        'title': _('Bank Accounts'),
                         'url': reverse('django_ledger:bank-account-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Estimates & Contracts',
+                        'title': _('Estimates & Contracts'),
                         'url': reverse('django_ledger:customer-estimate-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Bills',
+                        'title': _('Bills'),
                         'url': reverse('django_ledger:bill-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Invoices',
+                        'title': _('Invoices'),
                         'url': reverse('django_ledger:invoice-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Purchase Orders',
+                        'title': _('Purchase Orders'),
                         'url': reverse('django_ledger:po-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Inventory',
+                        'title': _('Inventory'),
                         'url': reverse('django_ledger:inventory-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Closing Entries',
+                        'title': _('Closing Entries'),
                         'url': reverse('django_ledger:closing-entry-list', kwargs={'entity_slug': ENTITY_SLUG})
                     }
 
@@ -669,94 +670,94 @@ def navigation_menu(context, style):
             },
             {
                 'type': 'links',
-                'title': 'Your Lists',
+                'title': _('Your Lists'),
                 'links': [
                     {
                         'type': 'link',
-                        'title': 'Entity Units',
+                        'title': _('Entity Units'),
                         'url': reverse('django_ledger:unit-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Products',
+                        'title': _('Products'),
                         'url': reverse('django_ledger:product-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Services',
+                        'title': _('Services'),
                         'url': reverse('django_ledger:service-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Business Expenses',
+                        'title': _('Business Expenses'),
                         'url': reverse('django_ledger:expense-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Inventory Items',
+                        'title': _('Inventory Items'),
                         'url': reverse('django_ledger:inventory-item-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Unit of Measures',
+                        'title': _('Unit of Measures'),
                         'url': reverse('django_ledger:uom-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                 ]
             },
             {
                 'type': 'links',
-                'title': 'Reports',
+                'title': _('Reports'),
                 'links': [
                     {
                         'type': 'link',
-                        'title': 'Balance Sheet',
+                        'title': _('Balance Sheet'),
                         'url': reverse('django_ledger:entity-bs', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Income Statement',
+                        'title': _('Income Statement'),
                         'url': reverse('django_ledger:entity-ic', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Cash Flow Statement',
+                        'title': _('Cash Flow Statement'),
                         'url': reverse('django_ledger:entity-cf', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                 ]
             },
             {
                 'type': 'links',
-                'title': 'Accounting',
+                'title': _('Accounting'),
                 'links': [
                     {
                         'type': 'link',
-                        'title': 'Chart of Accounts',
+                        'title': _('Chart of Accounts'),
                         'url': reverse('django_ledger:coa-list', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Ledgers',
+                        'title': _('Ledgers'),
                         'url': reverse('django_ledger:ledger-list-visible', kwargs={'entity_slug': ENTITY_SLUG})
                     },
                     {
                         'type': 'link',
-                        'title': 'Data Import',
+                        'title': _('Data Import'),
                         'url': reverse('django_ledger:data-import-jobs-list', kwargs={'entity_slug': ENTITY_SLUG})
                     }
                 ]
             },
             {
                 'type': 'links',
-                'title': 'Administration',
+                'title': _('Administration'),
                 'links': [
                     {
                         'type': 'link',
-                        'title': 'My Entities',
+                        'title': _('My Entities'),
                         'url': reverse('django_ledger:home')
                     },
                     {
                         'type': 'link',
-                        'title': 'Entity Settings',
+                        'title': _('Entity Settings'),
                         'url': reverse('django_ledger:entity-update', kwargs={'entity_slug': ENTITY_SLUG})
                     }
                 ]

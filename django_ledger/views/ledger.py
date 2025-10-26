@@ -71,13 +71,13 @@ class LedgerModelListView(LedgerModelModelBaseView, ArchiveIndexView):
         ctx['page_title'] = self.PAGE_TITLE
         ctx['header_title'] = self.PAGE_TITLE
         if self.show_all:
-            ctx['header_subtitle'] = 'All Ledger Models'
+            ctx['header_subtitle'] = _('All Ledger Models')
             ctx['header_subtitle_icon'] = 'emojione-monotone:ledger'
         if self.show_visible:
-            ctx['header_subtitle'] = 'Visible Ledger Models'
+            ctx['header_subtitle'] = _('Visible Ledger Models')
             ctx['header_subtitle_icon'] = 'mingcute:user-visible-line'
         if self.show_current:
-            ctx['header_subtitle'] = 'Current Ledger Models'
+            ctx['header_subtitle'] = _('Current Ledger Models')
             ctx['header_subtitle_icon'] = 'basil:current-location-outline'
         return ctx
 

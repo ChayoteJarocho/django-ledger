@@ -9,10 +9,10 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button class="button is-fullwidth is-primary is-outlined djetler_my_1" type="submit">Update
+                    <button class="button is-fullwidth is-primary is-outlined djetler_my_1" type="submit">{% trans 'Update' %}
                     </button>
                     <a href="{{ journal_entry.get_journal_entry_list_url }}"
-                       class="button is-small is-dark is-fullwidth">Back</a>
+                       class="button is-small is-dark is-fullwidth">{% trans'Go Back' %}</a>
                 </form>
             </div>
         </div>

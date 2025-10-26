@@ -117,7 +117,7 @@ class ImportJobModelUpdateView(ImportJobModelViewBaseView, UpdateView):
         messages.add_message(
             self.request,
             level=messages.SUCCESS,
-            message=_(f'Successfully updated Import Job {self.object.description}'),
+            message=_('Successfully updated Import Job %(obj_descr)s') % { 'obj_descr': self.object.description },
             extra_tags='is-success'
         )
         return super().form_valid(form=form)

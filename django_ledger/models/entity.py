@@ -432,12 +432,12 @@ class EntityModelClosingEntryMixIn:
         if isinstance(self, EntityModel):
             if self.uuid != closing_entry_model.entity_model_id:
                 raise EntityModelValidationError(
-                    message=_(f'The Closing Entry Model {closing_entry_model} does not belong to Entity {self.name}')
-                )
+                    message=_('The Closing Entry Model %(cem)s does not belong to Entity %(name)s')
+                ) % { 'cem' : closing_entry_model, 'name' : self.name }
         if closing_date and closing_entry_model.closing_date != closing_date:
             raise EntityModelValidationError(
-                message=_(f'The Closing Entry Model date {closing_entry_model.closing_date} '
-                          f'does not match explicitly provided closing_date {closing_date}')
+                message=_('The Closing Entry Model date %(first_closing_date)s '
+                          'does not match explicitly provided closing_date %(second_closing_date)s') % {'first_closing_date': closing_entry_model.closing_date, 'second_closing_date' : closing_date }
             )
 
     # ---> Closing Entry IO Digest <---
@@ -535,7 +535,7 @@ class EntityModelClosingEntryMixIn:
 
         if closing_date > get_localdate():
             raise EntityModelValidationError(
-                message=_(f'Cannot create closing entry with a future date {closing_date}.')
+                message=_('Cannot create closing entry with a future date %(cs)s.') % {'cs': closing_date}
             )
 
         if closing_entry_model is None or closing_entry_exists:
@@ -861,9 +861,10 @@ class EntityModelAbstract(MP_Node,
                 except ObjectDoesNotExist:
                     raise EntityModelValidationError(
                         message=_(
-                            f'Invalid Parent Entity. '
-                            f'Entity with slug {parent_entity} is not administered by {admin.username}')
-                    )
+                            'Invalid Parent Entity. '
+                            'Entity with slug %(pe)s is not administered by %(u)s') % {
+                                'pe' : parent_entity,
+                                'u' : admin.username })
             elif isinstance(parent_entity, UUID):
                 # get by uuid...
                 try:
@@ -871,17 +872,19 @@ class EntityModelAbstract(MP_Node,
                 except ObjectDoesNotExist:
                     raise EntityModelValidationError(
                         message=_(
-                            f'Invalid Parent Entity. '
-                            f'Entity with UUID {parent_entity} is not administered by {admin.username}')
-                    )
+                            'Invalid Parent Entity. '
+                            'Entity with UUID %(pe)s is not administered by %(u)s') % {
+                                'pe' : parent_entity,
+                                'u' : admin.username,})
             elif isinstance(parent_entity, cls):
                 # EntityModel instance provided...
                 if parent_entity.admin != admin:
                     raise EntityModelValidationError(
                         message=_(
-                            f'Invalid Parent Entity. '
-                            f'Entity {parent_entity} is not administered by {admin.username}')
-                    )
+                            'Invalid Parent Entity. '
+                            'Entity %(pe)s is not administered by %(u)s') % {
+                                'pe' : parent_entity,
+                                'u' : admin.username, })
                 parent_entity_model = parent_entity
             else:
                 raise EntityModelValidationError(
@@ -958,7 +961,7 @@ class EntityModelAbstract(MP_Node,
         if not force_update and self.slug:
             if raise_exception:
                 raise ValidationError(
-                    message=_(f'Cannot replace existing slug {self.slug}. Use force_update=True if needed.')
+                    message=_('Cannot replace existing slug %(slug)s. Use force_update=True if needed.') % {'slug': self.slug}
                 )
 
         self.slug = self.generate_slug_from_name(self.name)
@@ -1043,7 +1046,7 @@ class EntityModelAbstract(MP_Node,
         """
         # todo: this logic will generate always the same slug...
         if not coa_name:
-            coa_name = 'Default CoA'
+            coa_name = _('Default CoA')
 
         chart_of_accounts = ChartOfAccountModel(
             name=coa_name,
@@ -1357,7 +1360,7 @@ class EntityModelAbstract(MP_Node,
         """
         if not self.default_coa_id:
             if raise_exception:
-                raise EntityModelValidationError(message=_('No default_coa found.'))
+                raise EntityModelValidationError(message=_('No default CoA found.'))
             return
 
         return self.get_coa_accounts(active=active, order_by=order_by)
@@ -2042,7 +2045,7 @@ class EntityModelAbstract(MP_Node,
 
         if account_type not in BankAccountModel.VALID_ACCOUNT_TYPES:
             raise EntityModelValidationError(
-                _(f'Invalid Account Type: choices are {BankAccountModel.VALID_ACCOUNT_TYPES}'))
+                _('Invalid Account Type: choices are %(vat)s') % { 'vat' : BankAccountModel.VALID_ACCOUNT_TYPES })
 
         account_model_qs = self.get_coa_accounts(coa_model=coa_model, active=True)
         account_model_qs = account_model_qs.with_roles(

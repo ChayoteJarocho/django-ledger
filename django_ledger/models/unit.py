@@ -131,7 +131,7 @@ class EntityUnitModelAbstract(MP_Node,
                                editable=False,
                                on_delete=models.CASCADE,
                                verbose_name=_('Unit Entity'))
-    document_prefix = models.CharField(max_length=3)
+    document_prefix = models.CharField(max_length=3, verbose_name=_('Document Prefix'))
     active = models.BooleanField(default=True, verbose_name=_('Is Active'))
     hidden = models.BooleanField(default=False, verbose_name=_('Is Hidden'))
 

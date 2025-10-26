@@ -13,10 +13,10 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button class="button is-outlined is-primary is-fullwidth djetler_my_1" type="submit">Create
+                    <button class="button is-outlined is-primary is-fullwidth djetler_my_1" type="submit">{% trans 'Create' %}
                     </button>
                     <a class="button is-small is-dark is-fullwidth"
-                       href="{{ ledger_model.get_journal_entry_list_url }}">Back</a>
+                       href="{{ ledger_model.get_journal_entry_list_url }}">{%trans 'Go Back' %}</a>
                 </form>
             </div>
         </div>
