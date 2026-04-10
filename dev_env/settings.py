@@ -16,7 +16,7 @@ if DEBUG:
     logger.setLevel(logging.DEBUG)
     logger.warning('DEBUG MODE ON. Do NOT use this Development Environment!')
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.102', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.102', 'localhost', 'web']
 CSRF_TRUSTED_ORIGINS = ['https://*.preview.app.github.dev']
 
 INSTALLED_APPS = [
@@ -130,7 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379'),
     }
 }
 
