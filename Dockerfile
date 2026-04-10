@@ -1,20 +1,28 @@
-FROM python:latest
+FROM ghcr.io/astral-sh/uv:latest AS uv
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git \
+        libjpeg-dev \
+        zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=uv /uv /usr/local/bin/uv
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    UV_PROJECT_ENVIRONMENT=/opt/venv
 
 WORKDIR /app
 
-RUN apt-get update
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen
 
-RUN pip3 install --upgrade pip
+COPY . .
 
-RUN pip3 install -U pipenv
-
-COPY . /app/
-
-RUN pipenv install
+ENV PATH="/opt/venv/bin:$PATH"
 
 EXPOSE 8000
-
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
